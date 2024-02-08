@@ -6,7 +6,7 @@ For the legacy Bootstrap 3 version of this theme, you can view the [last stable 
 
 ## Preview
 
-[![SB Admin 2 Preview](https://github.com/galeno33/2bptur.com/blob/main/home.php)
+[![SB Admin 2 Preview](https://github.com/galeno33/2bptur.com/blob/main/login.html)
 
 **[Launch Live Preview](https://startbootstrap.github.io/startbootstrap-sb-admin-2/)**
 
