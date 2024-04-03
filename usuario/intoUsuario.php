@@ -42,7 +42,7 @@ include("conexao/conexao.php");
             $stmt = mysqli_prepare($conn, $sqlUsuario);
 
             if ($stmt) {
-                mysqli_stmt_bind_param($stmt, 'ississis', $matricula, $nomeCompleto, $nomeGuerra, $posto, $telefone, $senhaHash, $compania, $situacaoAcesso);
+                mysqli_stmt_bind_param($stmt, 'isssssis', $matricula, $nomeCompleto, $nomeGuerra, $posto, $telefone, $senhaHash, $compania, $situacaoAcesso);
                 $result = mysqli_stmt_execute($stmt);
 
                 if ($result) {

@@ -1,7 +1,7 @@
 <?php
     include ('../conexao/conexao.php');
     session_start();
-    $id_usuario = $_GET['updAdministra'];
+    $id_usuario = $_SESSION['matricula'];
     $sqlUpd = "SELECT * FROM usuario WHERE id = $id_usuario";
     $rest = mysqli_query($conn, $sqlUpd);
 
@@ -19,12 +19,21 @@
     
     //retorna os dados que serão atualizados
     if(isset($_POST['updateUsuario'])){
+        $guerra = $_POST['nomeGuerra'];
         $posto = $_POST['posto'];
         $classe = $_POST['classe'];
-        $situacao = ($_POST['flexRadioDefault'] == 1) ? "habilitado" : "desabilitado";
-        $upg = "UPDATE `usuario` SET situacao='$situacao',
+        $telefone = $_POST['telefone'];
+        $senha = $_POST['senha'];
+
+        // Cria um hash seguro da senha
+        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+        
+        //$situacao = ($_POST['flexRadioDefault'] == 1) ? "habilitado" : "desabilitado";
+        $upg = "UPDATE `usuario` SET nome_de_guerra='$guerra',
                                      posto_usuario='$posto',
-                                     classe_usuario='$classe'
+                                     classe_usuario='$classe',
+                                     telefone_usuario='$telefone',
+                                     senha_usuario='$senhaHash'
                                      WHERE id=$id_usuario";
 
         $res=mysqli_query($conn, $upg);
@@ -222,7 +231,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <label for="inputGuerra" class="form-label">Nome de Guerra</label>
-                                                <input type="text" class="form-control" name="nomeGuerra" id="inputGuerra" value="<?php echo $guerra;?>" disabled>
+                                                <input type="text" class="form-control" name="nomeGuerra" id="inputGuerra" value="<?php echo $guerra;?>">
                                             </div>
                                             <div class="col-3">
                                                 <label for="inputPosto" class="form-label">Posto/Patente</label>
@@ -230,15 +239,15 @@
                                             </div>
                                             <div class="col-3">
                                                 <label for="inputClasse" class="form-label">Classe</label>
-                                                <input type="text" class="form-control" name="classe" id="inputClasse" value="<?php echo $classe;?>" style="text-transform: uppercase;" placeholder="OFICIAL/PRAÇA">
+                                                <input type="text" class="form-control" name="classe" id="inputClasse" value="<?php echo $classe;?>" style="text-transform: uppercase;" placeholder="OFICIAL/PRAÇA" disabled>
                                             </div>
                                             <div class="col-3">
                                                 <label for="inputTelefone" class="form-label" >Telefone</label>
-                                                <input type="tel" class="form-control" name="telefone" id="inputTelefone" value="<?php echo $telefone;?>" disabled>
+                                                <input type="tel" class="form-control" name="telefone" id="inputTelefone" value="<?php echo $telefone;?>">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="inputPassword4" class="form-label">Password</label>
-                                                <input type="password" class="form-control" name="senha" id="senha" value="<?php echo $senha;?>" disabled>
+                                                <input type="password" class="form-control" name="senha" id="senha" value="<?php echo $senha;?>">
                                                 <!---<div class="form-check">
                                                     
                                                     <label class="form-check-label" for="gridCheck">
@@ -250,9 +259,9 @@
                                             
                                             <div class="col-3">
                                                 <label for="inputCia" class="form-label">Cia</label>
-                                                <input type="text" class="form-control" name="cia" id="inputCia" value="<?php echo $cia;?>">
+                                                <input type="text" class="form-control" name="cia" id="inputCia" value="<?php echo $cia;?>" disabled>
                                             </div>
-                                            <div class="col-md-6">
+                                            <!--<div class="col-md-6">
                                                 <label for="inputSituacao" class="form-label">Situação de acesso</label>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" value="1" name="flexRadioDefault" id="flexRadioDefault1">
@@ -266,7 +275,7 @@
                                                         Desabilitado
                                                     </label>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                                 <br>
                                                 <div class="col-md-12">
                                                 <button type="submit" name="updateUsuario" class="btn btn-primary">Atualizar</button>
