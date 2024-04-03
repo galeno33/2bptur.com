@@ -7,6 +7,7 @@
     $_SESSION['batalhao'] = $batalhão;
     $_SESSION['indice'] = $indice;
     $_SESSION['autor'] = $autor;
+    $_SESSION['perfil'] = 'updatePerfil.php';
 
     //echo $indice;
     
