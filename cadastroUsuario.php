@@ -183,14 +183,45 @@
                                                 <label for="inputMatricula" class="form-label">Matricula</label>
                                                 <input type="number" class="form-control" name="inputMatricula" id="inputMatricula" placeholder="Digite o nome completo">
                                             </div>
+                                            
                                             <div class="col-6">
                                                 <label for="inputGuerra" class="form-label">Nome de Guerra</label>
                                                 <input type="text" class="form-control" name="inputGuerra" id="inputGuerra" placeholder="Digite o nome de guerra">
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-3">
+                                                <label for="inputPosto" class="form-label">Posto/Patente</label>
+                                                <select class="form-control" name="inputPosto" aria-label="Default select example">
+                                                    <option selected disabled>Patente</option>
+                                                    <option value="1">SOLDADO</option>
+                                                    <option value="2">CABO</option>
+                                                    <option value="3">3º SARGENTO</option>
+                                                    <option value="4">2º SARGENTO</option>
+                                                    <option value="5">1º SARGENTO</option>
+                                                    <option value="6">SUB TENENTE</option>
+                                                    <option value="7">2º TENENTE</option>
+                                                    <option value="8">1º TENENTE</option>
+                                                    <option value="9">CAPITÃO</option>
+                                                    <option value="10">MAJOR</option>
+                                                    <option value="11">TENENTE CORONEL</option>
+                                                    <option value="12">CORONEL</option>
+                                                </select>
+                                            </div>
+                                            <!--<div class="col-3">
                                                 <label for="inputPosto" class="form-label">Posto/Patente</label>
                                                 <input type="text" class="form-control" name="inputPosto" id="inputPosto" placeholder="Soldado">
+                                            </div>-->
+                                            <div class="col-3">
+                                                <label for="inputClasse" class="form-label">Classe</label>
+                                                <select class="form-control" name="inputClasse" aria-label="Default select example">
+                                                    <option selected disabled>Classe</option>
+                                                    <option value="1">OFICIAL</option>
+                                                    <option value="2">PRAÇA</option>
+                                                </select>
                                             </div>
+                                            <!--<div class="col-3">
+                                                <label for="inputPosto" class="form-label">Classe</label>
+                                                <input type="text" class="form-control" name="inputPosto" id="inputPosto" placeholder="Oficial">
+                                            </div>-->
                                             <div class="col-3">
                                                 <label for="inputTelefone" class="form-label" >Telefone</label>
                                                 <input type="tel" class="form-control" name="inputTelefone" id="inputTelefone" placeholder="989XXXX-XXXX" pattern="[0-9]{2}[0-9]{5}[0-9]{4}">
@@ -206,11 +237,20 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            
                                             <div class="col-3">
+                                                <label for="inputCia" class="form-label">Companhia</label>
+                                                <select class="form-control" name="inputCia" aria-label="Default select example">
+                                                    <option selected disabled>Cia</option>
+                                                    <option value="1">1ª</option>
+                                                    <option value="2">2ª</option>
+                                                    <option value="3">3ª</option>
+                                                    <option value="4">4ª</option>
+                                                </select>
+                                            </div>
+                                            <!--<div class="col-3">
                                                 <label for="inputCia" class="form-label">Cia</label>
                                                 <input type="text" class="form-control" name="inputCia" id="inputCia" placeholder="Digite a compania">
-                                            </div>
+                                            </div>-->
                                             <div class="col-md-6">
                                                 <label for="inputSituacao" class="form-label">Situação de acesso</label>
                                                 <div class="form-check">
@@ -235,7 +275,7 @@
 
                                     </div>
                                     <hr>
-                                   
+
                                 </div>
                             </div>
 

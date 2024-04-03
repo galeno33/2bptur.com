@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - 404</title>
+    <title>Erro no Cadastro do Usuario</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -61,25 +61,10 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-             <!-- Nav Item - Pages Collapse Menu -->
-             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <!--<i class="fas fa-fw fa-cog"></i>--> <!--icone de configuração-->
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Sessões</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Sessões:</h6>
-                        <a class="collapse-item" href="ocorrencias.php">Ocorrências</a>
-                        <a class="collapse-item" href="usuario.php">Usuarios</a>
-                        <!--<a class="collapse-item" href="cadastroBo.php">Cadastrar Ocorrências</a>-->
-                    </div>
-                </div>
-            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            
 
-                       <!-- Divider -->
+            <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
@@ -110,11 +95,6 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                      
-                        
-
-                        
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -130,20 +110,20 @@
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    Perfil
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <!--<a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
-                                </a>
+                                </a>-->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Sair
                                 </a>
                             </div>
                         </li>
@@ -197,15 +177,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Pronto para partir?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="index.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="index.html">Sair</a>
                 </div>
             </div>
         </div>

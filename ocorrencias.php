@@ -28,67 +28,6 @@
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-    <script>
-        /*function dadosAdicionados(contador) {
-
-        var matriculaInput = window.document.getElementById('inputMatricula');
-        var mikerInput = window.document.getElementById('inputMiker');
-        var valorMiker = Number.parseInt(mikerInput.value);
-        //var matriculaInput = $(`#inputMatricula${contadorMatriculas}`);
-        var valorMatricula = Number.parseInt(matriculaInput.value);
-        contador++;
-        var res = $('#exibirDados');
-        res.append(`Miker: ${valorMiker}` + `,`+ ` `);
-        res.append(`Matricula: ${valorMatricula}` + `,` + `<br>`);
-
-        //adicionar os dados digitados no js ao php usando ajax
-        $.ajax({
-        type: "POST",
-        url: "gravarMiker.php",  // Substitua com o caminho correto para o seu script PHP
-        data: { valorMatricula: valorMatricula, valorMiker: valorMiker},
-        success: function(response) {
-            console.log(response);  // Exiba a resposta do PHP no console (opcional)
-        },
-        error: function(error) {
-            console.error(error);  // Exiba erros no console (opcional)
-        }
-    });
-
-        }*/
-
-       /* function dadosAdicionados() {
-            var matriculaInput = $('#inputMatricula').val();
-            var mikerInput = $('#inputMiker').val();
-
-            // Adiciona os dados à exibição
-            var res = $('#exibirDados');
-            res.append(`Miker: ${mikerInput}, Matrícula: ${matriculaInput}<br>`);
-
-            // Adiciona os dados ao PHP usando AJAX
-            $.ajax({
-                type: "POST",
-                url: "ocorrencias/gravarMiker.php",
-                data: { valorMatricula: matriculaInput, valorMiker: mikerInput },
-                success: function(response) {
-                    console.log(response);  // Exibe a resposta do PHP no console (opcional)
-                },
-                error: function(error) {
-                    console.error(error);  // Exibe erros no console (opcional)
-                }
-            });
-        } 
-        // Aguarde o documento estar totalmente carregado
-        $(document).ready(function() {
-            // Adicione um ouvinte de evento para o formulário
-            $('#seuFormulario').submit(function() {
-                // Limpe o valor do campo de matrícula após o envio do formulário
-                $('#inputMatricula').val('');
-            });
-        });*/
-        //====================================================================================
-    </script>
-
-
 </head>
 
 <body id="page-top">
@@ -130,11 +69,11 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Sessões</span>
+                    <span>Area do Administrativo</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Sessões:</h6>
+                        <h6 class="collapse-header">Administrativo:</h6>
                         <!--<a class="collapse-item" href="cadastroBo.php">Cadastro Ocorrências</a>-->
                         <a class="collapse-item" href="usuario.php">Usuarios</a>
                         <!--<a class="collapse-item" href="#">Cadastrar Ranking's</a>-->

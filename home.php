@@ -1,12 +1,15 @@
 <?php
     include('conexao/conexao.php');
-    session_start();
+    include('php/variaveis.php');
+    //session_start();
         $usuario = $_SESSION['matricula'];
-        $sqlRestricao = "SELECT id, situacao FROM usuario WHERE id = $usuario";
+        $sqlRestricao = "SELECT id, nome_completo, classe_usuario, situacao FROM usuario WHERE id = $usuario";
         
         $resRestricao = mysqli_query($conn, $sqlRestricao);
         $rowRestricao = mysqli_fetch_assoc($resRestricao);
+        $nomecompleto = $rowRestricao['nome_completo'];
         $situacao = $rowRestricao['situacao'];
+        $classe = $rowRestricao['classe_usuario'];
          //var_dump($situacao);
 
         // Lista de todos os valores possíveis para tipificacao_crime
@@ -44,7 +47,7 @@
             // Trate o caso em que a consulta falha
             echo "Erro na consulta: " . mysqli_error($conn);
         }
-
+        
         
 
 ?>
@@ -100,7 +103,27 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
+            <?php
+                 if($situacao == "HABILITADO"){
+            ?>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <!--<i class="fas fa-fw fa-cog"></i>--> <!--icone de configuração-->
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Area do Administrativo</span>
+                </a>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Administrativo:</h6>
+                        <a class="collapse-item" href="ocorrencias.php">Ocorrência</a>
+                        <a class="collapse-item" href="usuario.php"> Usuarios</a>
+                    </div>
+                </div>
+            </li>
+            <?php
+                }
+            ?>
             <!-- Heading -->
             <div class="sidebar-heading">
                 Interface
@@ -117,29 +140,56 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Sessões:</h6>
-                        <a class="collapse-item" href="ocorrencias.php">
-                            <?php
-                                if($situacao == "HABILITADO"){
-                                    $ocorrencia = "Ocorrência";
-                                    echo $ocorrencia;
-                                }
-                            ?>
-                        </a>
-                        <a class="collapse-item" href="usuario.php">
-                            <?php 
-                                if($situacao == "HABILITADO"){
-                                    $verUsuario = "Usuarios";
-                                    echo $verUsuario;
-                                }
-                            ?>
-                        </a>
-                        <!--<a class="collapse-item" href="cadastroBo.php">Cadastrar Ocorrências</a>-->
+                        <a class="collapse-item" href="https://forms.gle/K8YfA3b4KX1GyZb9A">Relatorio de disparos</a>
+                        <a class="collapse-item" href="https://forms.gle/fyZNtGv944nVugyx5">Boletim de ocorrêcnia</a>
+                        <a class="collapse-item" href="https://forms.gle/veP7Vn8PN9kn3GiMA">Livro do CPU</a>
+                        <a class="collapse-item" href="https://forms.gle/VMEXp9aiMwnipWu2A">Cmd de guarnição</a>
+                        <a class="collapse-item" href="https://docs.google.com/forms/d/e/1FAIpQLScR13pjdKiim6uX4gtNVvCJB6Ql4Qe4pU8JFCLE4DjhAOXuwA/viewform?vc=0&c=0&w=1&flr=0">Check list</a>
                     </div>
                 </div>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
+            <!-- Nav Item - Pages Collapse Menu -->
+            <!--<li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTree"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-filter"></i>
+                    <span>Fitros</span>
+                </a>
+                <div id="collapseTree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Ocorrências:</h6>
+                        <a class="collapse-item" href="relatorioOcorrencias.php">Periodo/data</a>
+                        <a class="collapse-item" href="graficoOcorrencia.php">Bairro/Grafico</a>
+                        
+                    </div>
+                </div>
+            </li>-->
+            <hr class="sidebar-divider">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fa fa-sync"></i>
+                    <span>Permultas</span>
+                </a>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Permuta:</h6>
+                        <a class="collapse-item" href="minhaPermuta.php">Minha permutas</a>
+                        <a class="collapse-item" href="pedirPermutas.php">Pedir permutas</a>
+                        <!--<a class="collapse-item" href="#">Cadastrar Ranking's</a>-->
+                    </div>
+                </div>
+            </li>
+            <!--<li class="nav-item">
+                <a class="nav-link" href="relatorioOcorrencias.php">
+                    <i class="fas fa-filter"></i>
+                    <span>Filtrar Ocorrências</span></a>
+            </li>-->
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -175,8 +225,7 @@
             </div>
 
         </ul>
-        <!-- End of Sidebar -->
-
+        
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -207,7 +256,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="pagConstrucao.html">
+                                <a class="dropdown-item" href="usuario/updatePerfil.php">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
@@ -235,35 +284,31 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <!--<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>-->
-                    </div>
-
+                    
+                        
                     <!-- Content Row -->
                     <div class="row">
+                        <?php
+                            //adicionar a condicional par afiltrar o acesso para oficiais e praças
+                            if($classe == "OFICIAL" || $classe == "oficial"){
+                        ?>
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Arma de fogo</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <?php
-                                                     if($tipificacaoCrime = 4){
-                                                           echo $quantidadesPorTipo[$tipificacaoCrime];
-                                                        }
-                                                ?>
-                                            </div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        Arma de fogo</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                        <?php
+                                                            if($tipificacaoCrime = 4){
+                                                                echo $quantidadesPorTipo[$tipificacaoCrime];
+                                                                }
+                                                        ?>
+                                                </div>
                                         </div>
-                                        <!--<div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -347,12 +392,16 @@
                                 </div>
                             </div>
                         </div>-->
+                        <?php
+                            }
+                        ?>
                     </div>
 
                   
                     <!-- Content Row -->
                     <div class="row">
-
+                            
+                            
                         <!-- Content Column -->
                         <!--<div class="col-lg-6 mb-4">-->
 
@@ -392,24 +441,78 @@
 
                         </div>-->
 
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-9 mb-4">
 
                             <!-- Illustrations -->
-                            <!--<div class="card shadow mb-4">
+                            <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Permutas disponiveis</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="img/undraw_posting_photo.svg" alt="...">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="#">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>-->
-                                    <!--<a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>-->
+                                <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name de Guerra</th>
+                                            <th>data do serviço</th>
+                                            <th>Situação</th>
+                                            <th>Companhia</th>
+                                            <th>Confirmação</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name de Guerra</th>
+                                            <th>data do serviço</th>
+                                            <th>Situação</th>
+                                            <th>Companhia</th>
+                                            <th>Confirmação</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <?php
+
+                                            //=================================================================================================================================================================================================================================================
+                                            //implementar o relacionamentos entre as tabelas usuario e agenda_permuta
+                                            $sqlResultadoPermuta = "SELECT usuario.nome_completo, usuario.nome_de_guerra, usuario.cia, agenda_permuta.id_agenda, agenda_permuta.matr_permutante, agenda_permuta.dia_agenda, agenda_permuta.aceito_permuta
+                                                                    FROM agenda_permuta 
+                                                                    JOIN usuario 
+                                                                    ON agenda_permuta.matr_permutante = usuario.id";
+
+                                            $resultado = mysqli_query($conn, $sqlResultadoPermuta) or die ("Erro oa tentar ver as permutas");
+                                            while($rowPermuta = mysqli_fetch_assoc($resultado)){
+                                                $idPermuta = $rowPermuta['id_agenda'];
+                                                $matrPermutante = $rowPermuta['matr_permutante'];
+                                                $nomeCompleto = $rowPermuta['nome_completo'];
+                                                $guerra = $rowPermuta['nome_de_guerra'];
+                                                $cia = $rowPermuta['cia'];
+                                                $dataPermuta = $rowPermuta['dia_agenda'];
+                                                $confirmAgenda = $rowPermuta['aceito_permuta'];
+                                                //formatação da data vindo do banco de dados para o formato convencionado no brasil
+                                                $timestamp = strtotime($dataPermuta);
+                                                $dataformatada = date('d-m-Y', $timestamp);
+                                                //$_SESSION['nomedeguerra'] = $guerra;
+                                                if($confirmAgenda == "Não" || $confirmAgenda == "não"){
+                                                    echo "<tr>";
+                                                    echo "<td>".$guerra."</td>";
+                                                    echo "<td>".$dataformatada."</td>";
+                                                    echo "<td>".$confirmAgenda."</td>";
+                                                    echo "<td>".$cia."ª</td>";
+                                                   
+                                                    
+                                                   // echo "<a href='home.php?aceite=".$idPermuta."' type='button' class='btn btn-success btn-block' data-toggle='modal' data-target='#myModal'>Aceitar</a>";
+                                        ?>
+                                            <th>
+                                                <a href="atualizarPermuta.php?aceite=<?php echo $idPermuta;?>" class="btn btn-primary ">Aceitar</a>
+                                            </th>
+                                        <?php 
+                                                    echo "</tr>";
+                                                }
+                                            }
+                                        ?>
+                                        
+                                        </tbody>
+                                </table>
                                 </div>
                             </div>
 
@@ -462,6 +565,73 @@
             </div>
         </div>
     </div>
+
+        <!-- Modal de permuta-->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">Confirme seu interesse na permuta.</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+                </div>
+                <div class="modal-body">
+                    
+                <!--<p>Clique em <strong> CONFIRMAR </strong> para aceitar a permuta, e fique atento(a) para a devida autorização do oficial responsavel.</p>-->
+                <form class="row g-6" id="formConsulta" action="permuta/atualizacaoPermuta.php" method="POST" enctype="multipart/form-data">
+                        
+                    <div class="col-sm-6">
+                        <label for="inputMatricula" class="control-label">Seu nome</label>
+                        <input type="text" class="form-control" name="nomeCompleto" id="inputGuerra" value="<?php echo $nomecompleto;?>">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="inputMatricula" class="control-label">Sua matricula</label>
+                        <input type="number" class="form-control" name="suaMatricula" id="inputGuerra" value="<?php echo $usuario;?>">
+                    </div>
+                    <div class="col-sm-6">
+                        <br>
+                        <label for="inputMatricula" class="control-label">Nome do permutante</label>
+                        <input type="text" class="form-control" name="nomePermutante" id="inputGuerra" value="<?php echo $nomeCompleto;?>">
+                    </div>
+                    <div class="col-sm-6">
+                        <br>
+                        <label for="inputMatricula" class="control-label">Matricula do permutante</label>
+                        <input type="number" class="form-control" name="matrPermutante" id="inputGuerra" value="<?php echo $matrPermutante;?>">
+                    </div>
+                    <div class="col-md-6" ><!--style="display :none;"-->
+                        <label for="inputSituacao" class="form-label">Você aceita a permuta?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="1" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Sim
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="0" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Não
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <!--<span id="msgAlerta1"></span>--->
+                        <label for="dataFinal" class="form-label">Data da permuta</label>
+                        <input type="text" class="form-control" name="nomeCompleto" id="inputGuerra" value="<?php echo $dataPermuta;?>">
+                        <!--<input type="date" class="form-control" name="dataPermuta" id="dataFinal">-->
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <input type="submit" name="confirmar" class="btn btn-primary" value="CONFIRMAR">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        
+            </div>
+        </div>
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

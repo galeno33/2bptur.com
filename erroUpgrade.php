@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Erro no Cadastro de Ocorrência</title>
+    <title>Erro na atualização de usuario</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -107,11 +107,11 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <!--<a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
-                                <!--<a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
@@ -138,9 +138,9 @@
                     <!-- 404 Error Text -->
                     <div class="text-center">
                         <div class="error mx-auto" data-text="Erro">Erro</div>
-                        <p class="lead text-gray-800 mb-5">Erro ao cadastrar a ocorrência</p>
+                        <p class="lead text-gray-800 mb-5">Erro na atualização de usuario</p>
                         <p class="text-gray-500 mb-0">Tente novemente o procedimento, se o erro continuar entre em contato com a equipe de devesenvolvimento da plataforma!</p>
-                        <a href="cadastroBo.php">&larr; Voltar anterior</a>
+                        <a href="usuario.php">&larr; Voltar anterior</a>
                     </div>
 
                 </div>
@@ -181,10 +181,10 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Selecione "Sair" abaixo se estiver pronto para encerrar sua sessão atual.</div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="index.html">sair</a>
+                    <a class="btn btn-primary" href="index.html">Sair</a>
                 </div>
             </div>
         </div>

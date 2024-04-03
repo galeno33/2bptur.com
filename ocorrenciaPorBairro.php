@@ -1,13 +1,12 @@
 <?php
     include('conexao/conexao.php');
     session_start();
-
     $usuario = $_SESSION['matricula'];
-    $sqlSelectRanking = "SELECT * FROM usuario WHERE id = $usuario";
-    $res = mysqli_query($conn, $sqlSelectRanking);
-    $rowSelectRanking = mysqli_fetch_assoc($res);
-    $cia = $rowSelectRanking['cia'];
-    $situacao = $rowSelectRanking['situacao'];
+    $sqlRestricao = "SELECT id, situacao FROM usuario WHERE id = $usuario";
+    
+    $resRestricao = mysqli_query($conn, $sqlRestricao);
+    $rowRestricao = mysqli_fetch_assoc($resRestricao);
+    $situacao = $rowRestricao['situacao'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -20,7 +19,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Ranking por CIA</title>
+    <title>Mancha Vermelha</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -64,27 +63,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-            <?php
-                 if($situacao == "HABILITADO"){
-            ?>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <!--<i class="fas fa-fw fa-cog"></i>--> <!--icone de configuração-->
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Area do Administrativo</span>
-                </a>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Administrativo:</h6>
-                        <a class="collapse-item" href="ocorrencias.php">Ocorrência</a>
-                        <a class="collapse-item" href="usuario.php"> Usuarios</a>
-                    </div>
-                </div>
-            </li>
-            <?php
-                }
-            ?>
+
             <!-- Heading -->
             <div class="sidebar-heading">
                 Interface
@@ -101,11 +80,23 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Sessões:</h6>
-                        <a class="collapse-item" href="https://forms.gle/K8YfA3b4KX1GyZb9A">Relatorio de disparos</a>
-                        <a class="collapse-item" href="https://forms.gle/fyZNtGv944nVugyx5">Boletim de ocorrêcnia</a>
-                        <a class="collapse-item" href="https://forms.gle/veP7Vn8PN9kn3GiMA">Livro do CPU</a>
-                        <a class="collapse-item" href="https://forms.gle/VMEXp9aiMwnipWu2A">Cmd de guarnição</a>
-                        <a class="collapse-item" href="https://docs.google.com/forms/d/e/1FAIpQLScR13pjdKiim6uX4gtNVvCJB6Ql4Qe4pU8JFCLE4DjhAOXuwA/viewform?vc=0&c=0&w=1&flr=0">Check list</a>
+                        <a class="collapse-item" href="ocorrencias.php">
+                            <?php
+                                if($situacao == "HABILITADO"){
+                                    $ocorrencia = "Ocorrência";
+                                    echo $ocorrencia;
+                                }
+                            ?>
+                        </a>
+                        <a class="collapse-item" href="usuario.php">
+                            <?php 
+                                if($situacao == "HABILITADO"){
+                                    $verUsuario = "Usuarios";
+                                    echo $verUsuario;
+                                }
+                            ?>
+                        </a>
+                        <!--<a class="collapse-item" href="cadastroBo.php">Cadastrar Ocorrências</a>-->
                     </div>
                 </div>
             </li>
@@ -243,22 +234,43 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                   
+                    <h1 class="h3 mb-2 text-gray-800">Mancha Vermelha</h1>
+                        <div class="card-body">        
+                        <form class="row g-6" id="formConsulta" method="POST" enctype="multipart/form-data">
+                            <div class="col-sm-3">
+                                <label for="dataInicial" class="form-label">Inicial</label>
+                                <input type="date" class="form-control" name="data_inicio" id="dataInicial">
+                            </div>
+                            <div class="col-sm-3">
+                            <!--<span id="msgAlerta1"></span>--->
+                                <label for="dataFinal" class="form-label">Final</label>
+                                <input type="date" class="form-control" name="data_fim" id="dataFinal">
+                                                                
+                            </div>
+                                        
+                            <div class="col-md-6">
+                                <input type="submit" name="salvar" class="btn btn-primary" value="Pesquisar">
+                            </div>
+                        </form>
+                        </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Ranking da <?php echo $cia; ?></h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Ocorrencia por bairro</h6>
+                                <br>
+                            
+                                
+                            
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered"  width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Colocação</th>
                                             <th>Nome de Guerra</th>
                                             <th>Pontos</th>
-                                            <!--<th>Cia</th>-->
+                                            <th>Cia</th>
                                             <!--<th>Start date</th>
                                             <th>Salary</th>-->
                                         </tr>
@@ -268,7 +280,7 @@
                                             <th>Colocação</th>
                                             <th>Nome de Guerra</th>
                                             <th>Pontos</th>
-                                            <!--<th>Cia</th>-->
+                                            <th>Cia</th>
                                             <!--<th>Start date</th>
                                             <th>Salary</th>-->
                                         </tr>
@@ -277,9 +289,8 @@
                                         <?php
                                             $i=0;
                                             //substituir ordem_serviço pela tabela do banco de dados Audiencia
-                                            $sqlRanking = "SELECT usuario.nome_de_guerra, pontos.matricula, SUM(ponto_ranking) as totalSoma
-                                                            FROM pontos JOIN usuario ON pontos.matricula = usuario.id 
-                                                            WHERE usuario.cia = '$cia' GROUP BY matricula ORDER BY 3 DESC";
+                                            $sqlRanking = "SELECT usuario.nome_de_guerra, usuario.cia, pontos.matricula, SUM(ponto_ranking) as totalSoma
+                                                            FROM pontos JOIN usuario ON pontos.matricula = usuario.id GROUP BY matricula ORDER BY 4 DESC";
                                             $result = mysqli_query($conn, $sqlRanking) or die ("Erro ao tentar consultar Ranking!!!");
 
                                             while($row = mysqli_fetch_assoc($result)){
@@ -288,7 +299,7 @@
                                                 $matricula = $row['matricula'];
                                                 $nome = $row['nome_de_guerra'];
                                                 $pontos = $row['totalSoma'];
-                                                //$ciaIndividual = $row['cia'];
+                                                $ciaIndividual = $row['cia'];
                                                 //$arquivo = $row['arquivos'];
                                                 // for($i = 1; $i <= sizeof($row); $i++){
                                                     
@@ -300,7 +311,7 @@
                                                // echo "<td>".$matricula."</td>";
                                                 echo "<td>".$nome."</td>";
                                                 echo "<td>".$pontos."</td>";
-                                                //echo "<td><strong>".$ciaIndividual."</strong>ª</td>";
+                                                echo "<td><strong>".$ciaIndividual."</strong>ª</td>";
                                                  
                            
                                             echo "</tr>";

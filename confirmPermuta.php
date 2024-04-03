@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Erro no Cadastro de Ocorrência</title>
+    <title>Confirmação de Permutas</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -48,7 +48,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="home.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                    <span>Inicio</span>
                 </a>
             </li>
 
@@ -62,7 +62,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <!-- Nav Item - Pages Collapse Menu -->
-            
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -94,6 +94,11 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
+                      
+                        
+
+                        
+
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -107,7 +112,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="pagConstrucao.html">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
@@ -137,10 +142,10 @@
 
                     <!-- 404 Error Text -->
                     <div class="text-center">
-                        <div class="error mx-auto" data-text="Erro">Erro</div>
-                        <p class="lead text-gray-800 mb-5">Erro ao cadastrar a ocorrência</p>
-                        <p class="text-gray-500 mb-0">Tente novemente o procedimento, se o erro continuar entre em contato com a equipe de devesenvolvimento da plataforma!</p>
-                        <a href="cadastroBo.php">&larr; Voltar anterior</a>
+                        <div class="error mx-auto" data-text=""><i class="fas fa-thumbs-up"></i></div>
+                        <p class="lead text-gray-800 mb-5">Pedido de permuta feita com sucesso, aguarde a confirmação do oficial responsavel.</p>
+                        <p class="text-gray-500 mb-0"></p>
+                        <a href="pedirPermutas.php">&larr; Voltar a pagina de Permutas</a>
                     </div>
 
                 </div>
@@ -184,7 +189,7 @@
                 <div class="modal-body">Selecione "Sair" abaixo se estiver pronto para encerrar sua sessão atual.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="index.html">sair</a>
+                    <a class="btn btn-primary" href="index.html">Sair</a>
                 </div>
             </div>
         </div>

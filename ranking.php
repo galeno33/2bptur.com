@@ -63,7 +63,27 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
+            <?php
+                 if($situacao == "HABILITADO"){
+            ?>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <!--<i class="fas fa-fw fa-cog"></i>--> <!--icone de configuração-->
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Area do Administrativo</span>
+                </a>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Administrativo:</h6>
+                        <a class="collapse-item" href="ocorrencias.php">Ocorrência</a>
+                        <a class="collapse-item" href="usuario.php"> Usuarios</a>
+                    </div>
+                </div>
+            </li>
+            <?php
+                }
+            ?>
             <!-- Heading -->
             <div class="sidebar-heading">
                 Interface
@@ -80,23 +100,11 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Sessões:</h6>
-                        <a class="collapse-item" href="ocorrencias.php">
-                            <?php
-                                if($situacao == "HABILITADO"){
-                                    $ocorrencia = "Ocorrência";
-                                    echo $ocorrencia;
-                                }
-                            ?>
-                        </a>
-                        <a class="collapse-item" href="usuario.php">
-                            <?php 
-                                if($situacao == "HABILITADO"){
-                                    $verUsuario = "Usuarios";
-                                    echo $verUsuario;
-                                }
-                            ?>
-                        </a>
-                        <!--<a class="collapse-item" href="cadastroBo.php">Cadastrar Ocorrências</a>-->
+                        <a class="collapse-item" href="https://forms.gle/K8YfA3b4KX1GyZb9A">Relatorio de disparos</a>
+                        <a class="collapse-item" href="https://forms.gle/fyZNtGv944nVugyx5">Boletim de ocorrêcnia</a>
+                        <a class="collapse-item" href="https://forms.gle/veP7Vn8PN9kn3GiMA">Livro do CPU</a>
+                        <a class="collapse-item" href="https://forms.gle/VMEXp9aiMwnipWu2A">Cmd de guarnição</a>
+                        <a class="collapse-item" href="https://docs.google.com/forms/d/e/1FAIpQLScR13pjdKiim6uX4gtNVvCJB6Ql4Qe4pU8JFCLE4DjhAOXuwA/viewform?vc=0&c=0&w=1&flr=0">Check list</a>
                     </div>
                 </div>
             </li>
@@ -293,9 +301,9 @@
                                                 echo "<td><strong>".$ciaIndividual."</strong>ª</td>";
                                                  
                            
-                                            echo "</tr>";
+                                                echo "</tr>";
             
-                                            //var_dump($pontos);
+                                                //var_dump($pontos);
                                             }
                                         ?>
                                         
