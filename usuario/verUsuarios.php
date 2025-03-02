@@ -1,32 +1,16 @@
 <?php
-    /*****atualizado dia 30/06/2024*****/
+    /*****atualizado dia 30/06/2024******/
     require_once('../conexao/conexao_01.php');
-    require_once('../atualizacoes/updateAdm.php');
-    require_once('../usuario/restricaoUsuarios.php');
+    require_once('restricaoUsuarios.php');
     session_start();
+
+    $conexao = new Conexao();
+    $conn = $conexao->getConexao();
 
     $restringir = new RestricaoDeUsuario();
     $restringir->restricao();
-    $nomeGuerra = $restringir->getNomeGuerra();
     $bpm = $restringir->getBpm();
-
-    // Instância do arquivo atualizacoes/updateAdm.php
-    $udpAdm = new UpdateAdm();
-    $udpAdm->getUpdateAdm();
-    $id = $udpAdm->getIdUpd();
-    $nomeCompleto = $udpAdm->getNomeUpd();
-    $nomeGuerraUsuario = $udpAdm->getNomeGuerraUpd();
-    $posto = $udpAdm->getPostoUpd();
-    $classe = $udpAdm->getClasseUpd();
-    $funcao = $udpAdm->getFuncaoUpd();
-    $telefone = $udpAdm->getTelefoneUpd();
-    $cia = $udpAdm->getCiaUpd();
-    $situacao = $udpAdm->getSituacaoUpd();
-    $senha = $udpAdm->getSenhaUpd();
-
-    // Ajustar o valor de $situacao para o radio button correto
-    $situacaoChecked = $situacao == 1 ? 'checked' : '';
-    $situacaoUnchecked = $situacao == 0 ? 'checked' : '';
+    $nomeGuerra = $restringir->getNomeGuerra();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -34,9 +18,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Atualização de Usuários - 2º BPTUR">
+    <meta name="description" content="Lista de Usuários - 2º BPTUR">
     <meta name="author" content="Fabio Galeno">
-    <title>Atualização de Usuários</title>
+    <title>Usuários</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -44,12 +28,16 @@
 
     <!-- Bootstrap e Estilos Customizados -->
     <!--<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/permutas.css">
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+
+   
+
     <style>
         :root {
             --primary-color: #2c5282; /* Azul corporativo */
@@ -126,23 +114,24 @@
             border-bottom: 1px solid #e2e8f0;
         }
 
-        .form-control {
-            border-radius: 6px;
+        .table-responsive {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table {
             border: 1px solid #e2e8f0;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.2);
-        }
-
-        .form-control:disabled {
-            background-color: #e9ecef;
-            opacity: 0.7;
+        .table th, .table td {
+            border-color: #e2e8f0;
         }
 
         .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
             border-radius: 6px;
             padding: 8px 16px;
             font-weight: 500;
@@ -231,9 +220,8 @@
                 </a>
                 <div id="collapseAdmin" class="collapse" aria-labelledby="headingAdmin" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Área do Administrativo:</h6>
+                        <h6 class="collapse-header">Administrativo:</h6>
                         <a class="collapse-item" href="../ocorrencias/ocorrencias.php">Ocorrências</a>
-                        <a class="collapse-item" href="verUsuarios.php">Usuários</a>
                     </div>
                 </div>
             </li>
@@ -251,23 +239,6 @@
                         <i class="fa fa-bars text-white"></i>
                     </button>
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown no-arrow mx-1 token-notification">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="far fa-hand-point-right"></i>
-                                <span class="badge badge-danger badge-counter"></span> <!-- O token não é relevante aqui, então deixei vazio -->
-                            </a>
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">Centro de Mensagens</h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">
-                                            <strong>Chave:</strong> <span id="token-value">Não aplicável</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </li>
-                        <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-white small"><strong><?php echo htmlspecialchars($nomeGuerra); ?></strong></span>
@@ -289,70 +260,65 @@
                 </nav>
 
                 <div class="container-fluid">
-                    <h1 class="h3 mb-4 text-gray-800 font-weight-bold">Atualização de Usuários</h1>
+                    <h1 class="h3 mb-4 text-gray-800 font-weight-bold">Lista de Usuários</h1>
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Atualizar Usuário</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Usuários Registrados</h6>
                         </div>
-                        <div class="card-body">
-                            <form class="row g-3" id="cadastroUsuario" method="POST" action="../atualizacoes/update_usuario.php" novalidate>
-                                <input type="hidden" name="matricula" value="<?php echo htmlspecialchars($id); ?>">
-                                <div class="col-md-9">
-                                    <label for="inputNomeCompleto" class="form-label">Nome Completo</label>
-                                    <input type="text" class="form-control" name="nomeCompleto" id="inputNomeCompleto" value="<?php echo htmlspecialchars($nomeCompleto); ?>" readonly>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="inputNomeGuerra" class="form-label">Nome de Guerra</label>
-                                    <input type="text" class="form-control" name="nomeGuerra" id="inputNomeGuerra" value="<?php echo htmlspecialchars($nomeGuerraUsuario); ?>" readonly>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="inputPosto" class="form-label">Posto/Patente</label>
-                                    <input type="text" class="form-control" name="posto" id="inputPosto" value="<?php echo htmlspecialchars($posto); ?>" style="text-transform: uppercase;">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="inputClasse" class="form-label">Classe</label>
-                                    <input type="text" class="form-control" name="classe" id="inputClasse" value="<?php echo htmlspecialchars($classe); ?>" style="text-transform: uppercase;" placeholder="OFICIAL/PRAÇA">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="inputFuncao" class="form-label">Função</label>
-                                    <input type="text" class="form-control" name="funcao" id="inputFuncao" value="<?php echo htmlspecialchars($funcao); ?>" placeholder="Cmd de Cia">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="inputTelefone" class="form-label">Telefone</label>
-                                    <input type="tel" class="form-control" name="telefone" id="inputTelefone" value="<?php echo htmlspecialchars($telefone); ?>" readonly>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="inputSenha" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" name="senha" id="inputSenha" value="<?php echo htmlspecialchars($senha); ?>">
-                                    <div class="form-check mt-2">
-                                        <input class="form-check-input" type="checkbox" id="showPassword" onclick="togglePassword()">
-                                        <label class="form-check-label" for="showPassword">Visualizar Senha</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="inputCia" class="form-label">Companhia</label>
-                                    <input type="text" class="form-control" name="cia" id="inputCia" value="<?php echo htmlspecialchars($cia); ?>ª">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Situação de Acesso</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="situacao" id="situacaoHabilitado" value="1" <?php echo $situacaoChecked; ?>>
-                                        <label class="form-check-label" for="situacaoHabilitado">Habilitado</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="situacao" id="situacaoDesabilitado" value="0" <?php echo $situacaoUnchecked; ?>>
-                                        <label class="form-check-label" for="situacaoDesabilitado">Desabilitado</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 mt-3">
-                                    <button type="submit" name="updateUsuario" class="btn btn-primary">Atualizar</button>
-                                </div>
-                                <?php if ($situacao == 1): ?>
-                                    <p class="mt-2 text-success">Situação atual: Habilitado</p>
-                                <?php else: ?>
-                                    <p class="mt-2 text-danger">Situação atual: Desabilitado</p>
-                                <?php endif; ?>
-                            </form>
+                        <div class="card-body d-flex flex-column gap-3">
+                            <a href="cadastroUsuario.php" class="btn btn-primary align-self-end">Cadastrar Usuários</a>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome Completo</th>
+                                            <th>Nome de Guerra</th>
+                                            <th>Posto</th>
+                                            <th>Matrícula</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Nome Completo</th>
+                                            <th>Nome de Guerra</th>
+                                            <th>Posto</th>
+                                            <th>Matrícula</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <?php
+                                        function decryptData($encryptedData) {
+                                            // Implemente aqui a lógica de descriptografia, se necessário
+                                            // Por enquanto, retorna o dado como está
+                                            return $encryptedData;
+                                        }
+
+                                        $sql = "SELECT id, nome_completo, nome_de_guerra, posto_usuario FROM usuario WHERE unidade_usuario = '$bpm'";
+                                        $result = mysqli_query($conn, $sql) or die("Erro ao tentar consultar Usuários!!!");
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            $idMatricula = $row['id'];
+                                            $nome = $row['nome_completo'];
+                                            $nomeGuerra = $row['nome_de_guerra'];
+                                            $posto = $row['posto_usuario'];
+
+                                            $postoDecript = decryptData($posto);
+
+                                            echo "<tr>";
+                                            echo "<td>" . htmlspecialchars($nome) . "</td>";
+                                            echo "<td>" . htmlspecialchars($nomeGuerra) . "</td>";
+                                            echo "<td>" . htmlspecialchars($postoDecript) . "</td>";
+                                            echo "<td>" . htmlspecialchars($idMatricula) . "</td>";
+                                            echo "<td>";
+                                            echo "<a href='updateUsuario.php?updAdministra=" . urlencode($idMatricula) . "' class='btn btn-primary btn-sm'>Editar</a>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -393,53 +359,20 @@
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../js/sb-admin-2.min.js"></script>
-    <script src="../js/vizualizarSenha.js"></script>
-   
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="../js/demo/datatables-demo.js"></script>
     <script>
-        // Função para visualizar/esconder senha
-        function togglePassword() {
-            const passwordInput = document.getElementById('inputSenha');
-            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-        }
-
-        // Validação do formulário
-        document.getElementById('cadastroUsuario').addEventListener('submit', function(e) {
-            let isValid = true;
-            const requiredFields = this.querySelectorAll('[required]');
-            
-            requiredFields.forEach(field => {
-                if (!field.value || field.value.trim() === '') {
-                    isValid = false;
-                    field.classList.add('border-danger');
-                    const feedback = field.nextElementSibling;
-                    if (feedback && feedback.classList.contains('invalid-feedback')) {
-                        feedback.style.display = 'block';
-                    }
-                } else {
-                    field.classList.remove('border-danger');
-                    const feedback = field.nextElementSibling;
-                    if (feedback && feedback.classList.contains('invalid-feedback')) {
-                        feedback.style.display = 'none';
-                    }
-                }
+       /* $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json"
+                },
+                "pageLength": 5,
+                "responsive": true,
+                "order": [[0, "asc"]]
             });
-
-            if (!isValid) {
-                e.preventDefault();
-                alert('Por favor, preencha todos os campos obrigatórios.');
-            }
-        });
-
-        // Limpar feedback ao interagir com os campos
-        document.querySelectorAll('.form-control').forEach(field => {
-            field.addEventListener('input', function() {
-                this.classList.remove('border-danger');
-                const feedback = this.nextElementSibling;
-                if (feedback && feedback.classList.contains('invalid-feedback')) {
-                    feedback.style.display = 'none';
-                }
-            });
-        });
+        });*/
     </script>
 </body>
 </html>

@@ -21,7 +21,7 @@
     if(isset($_POST['updateUsuario'])){
         $guerra = $_POST['nomeGuerra'];
         $posto = $_POST['posto'];
-        $classe = $_POST['classe'];
+        //$classe = $_POST['classe'];
         $telefone = $_POST['telefone'];
         $senha = $_POST['senha'];
 
@@ -39,11 +39,11 @@
         $res=mysqli_query($conn, $upg);
             if($res){
                 //echo "Atualizado com sucesso!";
-                //header('Location:http://localhost/projetos/1Bptur/confirUpgrade.php');
-                header('Location:https://2bptur.com/confirUpgrade.php');
+                header('Location:http://localhost/projetos/1Bptur/confirUpgrade.php');
+                //header('Location:https://2bptur.com/confirUpgrade.php');
             }else{
-                //header('Location:http://localhost/projetos/1Bptur/erroUpgrade.php');
-                header('Location:https://2bptur.com/erroUpgrade.php');
+                header('Location:http://localhost/projetos/1Bptur/erroUpgrade.php');
+                //header('Location:https://2bptur.com/erroUpgrade.php');
                 //die(mysqli_error($conn));
             }
     }

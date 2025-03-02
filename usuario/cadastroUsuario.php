@@ -1,32 +1,12 @@
 <?php
-    /*****atualizado dia 30/06/2024*****/
     require_once('../conexao/conexao_01.php');
-    require_once('../atualizacoes/updateAdm.php');
-    require_once('../usuario/restricaoUsuarios.php');
+    require_once('restricaoUsuarios.php');
     session_start();
 
     $restringir = new RestricaoDeUsuario();
     $restringir->restricao();
     $nomeGuerra = $restringir->getNomeGuerra();
     $bpm = $restringir->getBpm();
-
-    // Instância do arquivo atualizacoes/updateAdm.php
-    $udpAdm = new UpdateAdm();
-    $udpAdm->getUpdateAdm();
-    $id = $udpAdm->getIdUpd();
-    $nomeCompleto = $udpAdm->getNomeUpd();
-    $nomeGuerraUsuario = $udpAdm->getNomeGuerraUpd();
-    $posto = $udpAdm->getPostoUpd();
-    $classe = $udpAdm->getClasseUpd();
-    $funcao = $udpAdm->getFuncaoUpd();
-    $telefone = $udpAdm->getTelefoneUpd();
-    $cia = $udpAdm->getCiaUpd();
-    $situacao = $udpAdm->getSituacaoUpd();
-    $senha = $udpAdm->getSenhaUpd();
-
-    // Ajustar o valor de $situacao para o radio button correto
-    $situacaoChecked = $situacao == 1 ? 'checked' : '';
-    $situacaoUnchecked = $situacao == 0 ? 'checked' : '';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -34,20 +14,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Atualização de Usuários - 2º BPTUR">
+    <meta name="description" content="Cadastro de Usuários - 2º BPTUR">
     <meta name="author" content="Fabio Galeno">
-    <title>Atualização de Usuários</title>
+    <title>Cadastro de Usuários</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
     <!-- Bootstrap e Estilos Customizados -->
     <!--<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
-    <link rel="stylesheet" href="../css/permutas.css">
-
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
     <style>
@@ -137,12 +113,9 @@
             box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.2);
         }
 
-        .form-control:disabled {
-            background-color: #e9ecef;
-            opacity: 0.7;
-        }
-
         .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
             border-radius: 6px;
             padding: 8px 16px;
             font-weight: 500;
@@ -153,6 +126,21 @@
             background-color: #2a4365;
             transform: translateY(-1px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .invalid-feedback {
+            display: none;
+            color: var(--danger-color);
+            font-size: 0.875rem;
+        }
+
+        .form-control:invalid + .invalid-feedback {
+            display: block;
         }
 
         .dropdown-menu {
@@ -231,8 +219,7 @@
                 </a>
                 <div id="collapseAdmin" class="collapse" aria-labelledby="headingAdmin" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Área do Administrativo:</h6>
-                        <a class="collapse-item" href="../ocorrencias/ocorrencias.php">Ocorrências</a>
+                        <h6 class="collapse-header">Administrativo:</h6>
                         <a class="collapse-item" href="verUsuarios.php">Usuários</a>
                     </div>
                 </div>
@@ -251,23 +238,6 @@
                         <i class="fa fa-bars text-white"></i>
                     </button>
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown no-arrow mx-1 token-notification">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="far fa-hand-point-right"></i>
-                                <span class="badge badge-danger badge-counter"></span> <!-- O token não é relevante aqui, então deixei vazio -->
-                            </a>
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">Centro de Mensagens</h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">
-                                            <strong>Chave:</strong> <span id="token-value">Não aplicável</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </li>
-                        <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-white small"><strong><?php echo htmlspecialchars($nomeGuerra); ?></strong></span>
@@ -289,69 +259,125 @@
                 </nav>
 
                 <div class="container-fluid">
-                    <h1 class="h3 mb-4 text-gray-800 font-weight-bold">Atualização de Usuários</h1>
+                    <h1 class="h3 mb-4 text-gray-800 font-weight-bold">Cadastro de Usuários</h1>
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Atualizar Usuário</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Novo Usuário</h6>
                         </div>
                         <div class="card-body">
-                            <form class="row g-3" id="cadastroUsuario" method="POST" action="../atualizacoes/update_usuario.php" novalidate>
-                                <input type="hidden" name="matricula" value="<?php echo htmlspecialchars($id); ?>">
-                                <div class="col-md-9">
-                                    <label for="inputNomeCompleto" class="form-label">Nome Completo</label>
-                                    <input type="text" class="form-control" name="nomeCompleto" id="inputNomeCompleto" value="<?php echo htmlspecialchars($nomeCompleto); ?>" readonly>
+                            <form class="row g-3" id="cadastroUsuario" action="lancarUsuario.php" method="POST" novalidate>
+                                <div class="col-md-6">
+                                    <label for="inputNome" class="form-label">Nome Completo</label>
+                                    <input type="text" class="form-control" name="inputNome" id="inputNome" placeholder="Digite o nome completo">
+                                    <div class="invalid-feedback">Por favor, informe o nome completo.</div>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="inputNomeGuerra" class="form-label">Nome de Guerra</label>
-                                    <input type="text" class="form-control" name="nomeGuerra" id="inputNomeGuerra" value="<?php echo htmlspecialchars($nomeGuerraUsuario); ?>" readonly>
+                                    <label for="inputMatricula" class="form-label">Matrícula</label>
+                                    <input type="number" class="form-control" name="inputMatricula" id="inputMatricula" placeholder="Digite a matrícula">
+                                    <div class="invalid-feedback">Por favor, informe a matrícula.</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="inputGuerra" class="form-label">Nome de Guerra</label>
+                                    <input type="text" class="form-control" name="inputGuerra" id="inputGuerra" placeholder="Digite o nome de guerra">
+                                    <div class="invalid-feedback">Por favor, informe o nome de guerra.</div>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="inputPosto" class="form-label">Posto/Patente</label>
-                                    <input type="text" class="form-control" name="posto" id="inputPosto" value="<?php echo htmlspecialchars($posto); ?>" style="text-transform: uppercase;">
+                                    <select class="form-control" name="inputPosto" id="inputPosto">
+                                        <option value="">Selecione a patente</option>
+                                        <option value="1">SOLDADO</option>
+                                        <option value="2">CABO</option>
+                                        <option value="3">3º SARGENTO</option>
+                                        <option value="4">2º SARGENTO</option>
+                                        <option value="5">1º SARGENTO</option>
+                                        <option value="6">SUB TENENTE</option>
+                                        <option value="7">2º TENENTE</option>
+                                        <option value="8">1º TENENTE</option>
+                                        <option value="9">CAPITÃO</option>
+                                        <option value="10">MAJOR</option>
+                                        <option value="11">TENENTE CORONEL</option>
+                                        <option value="12">CORONEL</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, selecione uma patente.</div>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="inputClasse" class="form-label">Classe</label>
-                                    <input type="text" class="form-control" name="classe" id="inputClasse" value="<?php echo htmlspecialchars($classe); ?>" style="text-transform: uppercase;" placeholder="OFICIAL/PRAÇA">
+                                    <select class="form-control" name="inputClasse" id="inputClasse">
+                                        <option value="">Selecione a classe</option>
+                                        <option value="1">OFICIAL</option>
+                                        <option value="2">PRAÇA</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, selecione uma classe.</div>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="inputFuncao" class="form-label">Função</label>
-                                    <input type="text" class="form-control" name="funcao" id="inputFuncao" value="<?php echo htmlspecialchars($funcao); ?>" placeholder="Cmd de Cia">
+                                    <select class="form-control" name="inputFuncao" id="inputFuncao">
+                                        <option value="">Selecione a função</option>
+                                        <option value="1">Cmd. de Batalhão</option>
+                                        <option value="2">Sub. Cmd de Batalhão</option>
+                                        <option value="3">Cmd de Cia</option>
+                                        <option value="4">Sub Cmd de Cia</option>
+                                        <option value="5">Cmd do P1</option>
+                                        <option value="6">Cmd do P2</option>
+                                        <option value="7">Cmd do P3</option>
+                                        <option value="8">Cmd do P4</option>
+                                        <option value="9">Combatente</option>
+                                        <option value="10">Armeiro</option>
+                                        <option value="11">Administrativo</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, selecione uma função.</div>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="inputTelefone" class="form-label">Telefone</label>
-                                    <input type="tel" class="form-control" name="telefone" id="inputTelefone" value="<?php echo htmlspecialchars($telefone); ?>" readonly>
+                                    <input type="tel" class="form-control" name="inputTelefone" id="inputTelefone" placeholder="99 99999-9999" pattern="[0-9]{2}[0-9]{5}[0-9]{4}">
+                                    <div class="invalid-feedback">Por favor, informe um telefone válido (99 99999-9999).</div>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="inputSenha" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" name="senha" id="inputSenha" value="<?php echo htmlspecialchars($senha); ?>">
+                                    <input type="password" class="form-control" name="inputSenha" id="senha">
+                                    <div class="invalid-feedback">Por favor, informe uma senha.</div>
                                     <div class="form-check mt-2">
-                                        <input class="form-check-input" type="checkbox" id="showPassword" onclick="togglePassword()">
-                                        <label class="form-check-label" for="showPassword">Visualizar Senha</label>
+                                        <input class="form-check-input" type="checkbox" id="gridCheck" onclick="mostrarSenha()">
+                                        <label class="form-check-label" for="gridCheck">Visualizar senha</label>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
+                                    <label for="inputBpm" class="form-label">Unidade</label>
+                                    <select class="form-control" name="inputBpm" id="inputBpm">
+                                        <option value="">Selecione a unidade</option>
+                                        <option value="1" disabled>1º BPTUR</option>
+                                        <option value="2">2º BPTUR</option>
+                                        <option value="3" disabled>1º BMT</option>
+                                        <option value="4" disabled>BPA</option>
+                                        <option value="5" disabled>BPRV</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, selecione uma unidade.</div>
+                                </div>
+                                <div class="col-md-3">
                                     <label for="inputCia" class="form-label">Companhia</label>
-                                    <input type="text" class="form-control" name="cia" id="inputCia" value="<?php echo htmlspecialchars($cia); ?>ª">
+                                    <select class="form-control" name="inputCia" id="inputCia">
+                                        <option value="">Selecione a companhia</option>
+                                        <option value="1">1ª</option>
+                                        <option value="2">2ª</option>
+                                        <option value="3">3ª</option>
+                                        <option value="4">4ª</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, selecione uma companhia.</div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Situação de Acesso</label>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="situacao" id="situacaoHabilitado" value="1" <?php echo $situacaoChecked; ?>>
-                                        <label class="form-check-label" for="situacaoHabilitado">Habilitado</label>
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1">
+                                        <label class="form-check-label" for="flexRadioDefault1">Habilitado</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="situacao" id="situacaoDesabilitado" value="0" <?php echo $situacaoUnchecked; ?>>
-                                        <label class="form-check-label" for="situacaoDesabilitado">Desabilitado</label>
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="0" checked>
+                                        <label class="form-check-label" for="flexRadioDefault2">Desabilitado</label>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-3">
-                                    <button type="submit" name="updateUsuario" class="btn btn-primary">Atualizar</button>
+                                <div class="col-12">
+                                    <button type="submit" name="salvar" class="btn btn-primary mt-3">Salvar Cadastro</button>
                                 </div>
-                                <?php if ($situacao == 1): ?>
-                                    <p class="mt-2 text-success">Situação atual: Habilitado</p>
-                                <?php else: ?>
-                                    <p class="mt-2 text-danger">Situação atual: Desabilitado</p>
-                                <?php endif; ?>
                             </form>
                         </div>
                     </div>
@@ -394,21 +420,23 @@
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../js/sb-admin-2.min.js"></script>
     <script src="../js/vizualizarSenha.js"></script>
-   
     <script>
-        // Função para visualizar/esconder senha
-        function togglePassword() {
-            const passwordInput = document.getElementById('inputSenha');
-            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        function mostrarSenha() {
+            var senha = document.getElementById("senha");
+            if (senha.type === "password") {
+                senha.type = "text";
+            } else {
+                senha.type = "password";
+            }
         }
 
-        // Validação do formulário
+        // Validação do formulário com feedback visual
         document.getElementById('cadastroUsuario').addEventListener('submit', function(e) {
             let isValid = true;
             const requiredFields = this.querySelectorAll('[required]');
             
             requiredFields.forEach(field => {
-                if (!field.value || field.value.trim() === '') {
+                if (!field.value || field.value === '' || (field.type === 'radio' && !this.querySelector('input[name="flexRadioDefault"]:checked'))) {
                     isValid = false;
                     field.classList.add('border-danger');
                     const feedback = field.nextElementSibling;
@@ -431,7 +459,7 @@
         });
 
         // Limpar feedback ao interagir com os campos
-        document.querySelectorAll('.form-control').forEach(field => {
+        document.querySelectorAll('.form-control, .form-check-input').forEach(field => {
             field.addEventListener('input', function() {
                 this.classList.remove('border-danger');
                 const feedback = this.nextElementSibling;
