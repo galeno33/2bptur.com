@@ -118,10 +118,10 @@
             mysqli_close($conn);
 
             if ($result) {
-                echo "<div class='alert alert-success'>Cadastro realizado com sucesso!</div>";
+                echo "<script>alert('Ocorrência cadastrado com sucesso!'); window.location.href='https://2bptur.com/ocorrencias/cadastroBo.php';</script>";
                 //var_dump($situacaoAcesso);
             } else {
-                echo "<div class='alert alert-danger'>Erro: Informações não cadastradas. </div>";
+                echo "<script>alert('Erro ao cadastrar ocorrência!'); window.location.href='https://2bptur.com/ocorrencias/cadastroBo.php';</script>";
             }
         }
     }
