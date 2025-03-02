@@ -174,7 +174,7 @@
                                     <div class="chart-area">
                                         <!--<canvas id="myAreaChart"></canvas>-->
 
-                                        <form class="row g-3" id="cadastroUsuario" action="usuario/lancarUsuario.php" method="POST" enctype="multipart/form-data">
+                                        <form class="row g-3" id="cadastroUsuario" action="usuario/inseriUsuario.php" method="POST" enctype="multipart/form-data">
                                             <div class="col-9">
                                                 <label for="inputNome" class="form-label">Nome completo</label>
                                                 <input type="text" class="form-control" name="inputNome" id="inputNome" placeholder="Digite o nome completo">
@@ -218,15 +218,27 @@
                                                     <option value="2">PRAÇA</option>
                                                 </select>
                                             </div>
-                                            <!--<div class="col-3">
-                                                <label for="inputPosto" class="form-label">Classe</label>
-                                                <input type="text" class="form-control" name="inputPosto" id="inputPosto" placeholder="Oficial">
-                                            </div>-->
+                                            <div class="col-3">
+                                                <label for="inputClasse" class="form-label">função</label>
+                                                <select class="form-control" name="inputFuncao" aria-label="Default select example">
+                                                    <option selected disabled>Função</option>
+                                                    <option value="1">Cmd. de Batalhão</option>
+                                                    <option value="2">Sub. Cmd de Batalhão</option>
+                                                    <option value="3">Cmd de Cia</option>
+                                                    <option value="4">Sub Cmd de Cia</option>
+                                                    <option value="5">Cmd do P1</option>
+                                                    <option value="6">Cmd do P2</option>
+                                                    <option value="7">Cmd do P3</option>
+                                                    <option value="8">Cmd do P4</option>
+                                                    <option value="9">Combatente</option>
+                                                </select>
+                                            </div>
+                                        
                                             <div class="col-3">
                                                 <label for="inputTelefone" class="form-label" >Telefone</label>
                                                 <input type="tel" class="form-control" name="inputTelefone" id="inputTelefone" placeholder="989XXXX-XXXX" pattern="[0-9]{2}[0-9]{5}[0-9]{4}">
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <label for="inputPassword4" class="form-label">Password</label>
                                                 <input type="password" class="form-control" name="inputSenha" id="senha">
                                                 <div class="form-check">
@@ -278,42 +290,7 @@
 
                                 </div>
                             </div>
-
-                            <!-- Bar Chart -->
-                            <!--<div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-bar">
-                                        <canvas id="myBarChart"></canvas>
-                                    </div>
-                                    <hr>
-                                    Styling for the bar chart can be found in the
-                                    <code>/js/demo/chart-bar-demo.js</code> file.
-                                </div>
-                            </div>-->
-
                         </div>
-
-                        <!-- Donut Chart -->
-                        <!--<div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">-->
-                                <!-- Card Header - Dropdown -->
-                                <!--<div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Donut Chart</h6>
-                                </div>-->
-                                <!-- Card Body -->
-                                <!--<div class="card-body">
-                                    <div class="chart-pie pt-4">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <hr>
-                                    Styling for the donut chart can be found in the
-                                    <code>/js/demo/chart-pie-demo.js</code> file.
-                                </div>
-                            </div>
-                        </div>-->
                     </div>
 
                 </div>
@@ -357,7 +334,7 @@
                 <div class="modal-body">Selecione "Sair" abaixo se estiver pronto para encerrar sua sessão atual.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="login.html">Sair</a>
+                    <a class="btn btn-primary" href="index.html">Sair</a>
                 </div>
             </div>
         </div>

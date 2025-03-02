@@ -23,7 +23,8 @@
         $diaPermuta = $rowId['dia_agenda'];
 
         if(isset($_POST['confirmar'])){
-            $aceite = ($_POST['flexRadioDefault'] == 1) ? "Sim" : "Não";
+            //$aceite = ($_POST['flexRadioDefault'] == 1) ? "Sim" : "Não";
+            $aceite = "Confirmado";
             $updAgenda = "UPDATE `agenda_permuta`
                         SET aceito_permuta='$aceite' WHERE id_agenda=$id";
             $resUpdAgenda = mysqli_query($conn, $updAgenda);
@@ -31,21 +32,23 @@
             $matricula_permutante = $_POST['matrPermutante'];
             $matricula_permutado = $_POST['suaMatricula'];
             $dia_Permuta = $_POST['diaPermuta'];
-            
-            $addPermuta = "INSERT INTO permutas (`matr_permutante`, `matr_permutado`, `dia_permuta`, `aceito_permuta`) VALUE (?, ?, ?, ?)";
+           // $autorizacao = ($_POST['flexRadioDefault1'] == 1) ? "Sim" : "Não";
+            $justificativa = "Motivos pessoais!";//$_POST['justificativa'];
+            $autorizacao = "Em análise";
+            $addPermuta = "INSERT INTO permutas (`matr_permutante`, `matr_permutado`, `dia_permuta`, `aceito_permuta`, `autorizacao_permuta`, `justificativa`) VALUE (?, ?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($conn, $addPermuta);
 
            
-                mysqli_stmt_bind_param($stmt, 'iiss', $matricula_permutante, $matricula_permutado, $dia_Permuta, $aceite);
+                mysqli_stmt_bind_param($stmt, 'iissss', $matricula_permutante, $matricula_permutado, $dia_Permuta, $aceite, $autorizacao, $justificativa);
                 $resultado = mysqli_stmt_execute($stmt);
                 mysqli_stmt_close($stmt);
                 if($resUpdAgenda && $resultado){
                     //echo "Atualizado com sucesso!";
                     //header('Location:http://localhost/projetos/1Bptur/confirUpgrade.php');
-                    header('Location:https://2bptur.com/home.php');
+                    //header('Location:https://2bptur.com/home.php');
                 }else{
-                    //header('Location:http://localhost/projetos/1Bptur/erroUpgrade.php');
-                    header('Location:https://2bptur.com/erroUpgrade.php');
+                    header('Location:http://localhost/projetos/1Bptur/erroUpgrade.php');
+                    //header('Location:https://2bptur.com/erroUpgrade.php');
                     //die(mysqli_error($conn));
                 }
 
@@ -91,7 +94,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="home.php">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-shield-alt"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3"><?php echo $_SESSION['batalhao']; ?><sup><?php echo $_SESSION['indice']; ?></sup></div>
             </a>
@@ -125,6 +128,22 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Sessões:</h6>
+                        <a class="collapse-item" href="ocorrencias.php">
+                            <!--<?php
+                                if($situacao == "HABILITADO"){
+                                    $ocorrencia = "Ocorrência";
+                                    echo $ocorrencia;
+                                }
+                            ?>-->
+                        </a>
+                        <a class="collapse-item" href="usuario.php">
+                            <!--<?php 
+                                if($situacao == "HABILITADO"){
+                                    $verUsuario = "Usuarios";
+                                    echo $verUsuario;
+                                }
+                            ?>-->
+                        </a>
                         <a class="collapse-item" href="https://forms.gle/K8YfA3b4KX1GyZb9A">Relatorio de disparos</a>
                         <a class="collapse-item" href="https://forms.gle/fyZNtGv944nVugyx5">Boletim de ocorrêcnia</a>
                         <a class="collapse-item" href="https://forms.gle/veP7Vn8PN9kn3GiMA">Livro do CPU</a>
@@ -152,47 +171,6 @@
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <!--<li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li>-->
-
-            <!-- Nav Item - Charts -->
-            <!--<li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>-->
-
-            <!-- Nav Item - Tables -->
-            <!--<li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>-->
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -217,164 +195,8 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <!--<form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>-->
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <!--<li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>-->
-                            <!-- Dropdown - Messages -->
-                            <!--<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>-->
-
-                        <!-- Nav Item - Alerts -->
-                        <!--<li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>-->
-                                <!-- Counter - Alerts -->
-                                <!--<span class="badge badge-danger badge-counter">3+</span>
-                            </a>-->
-                            <!-- Dropdown - Alerts -->
-                            <!--<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>-->
-
-                        <!-- Nav Item - Messages -->
-                        <!--<li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>-->
-                                <!-- Counter - Messages -->
-                                <!--<span class="badge badge-danger badge-counter">7</span>
-                            </a>-->
-                            <!-- Dropdown - Messages -->
-                            <!--<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                            alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                            alt="...">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                            alt="...">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                            alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>-->
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -422,75 +244,7 @@
 
                     <div class="row">
 
-                        <div class="col-lg-9">
-
-                            <!-- Circle Buttons -->
-                            <!--<div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Circle Buttons</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>Use Font Awesome Icons (included with this theme package) along with the circle
-                                        buttons as shown in the examples below!</p>-->
-                                    <!-- Circle Buttons (Default) -->
-                                    <!--<div class="mb-2">
-                                        <code>.btn-circle</code>
-                                    </div>
-                                    <a href="#" class="btn btn-primary btn-circle">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-success btn-circle">
-                                        <i class="fas fa-check"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-info btn-circle">
-                                        <i class="fas fa-info-circle"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-warning btn-circle">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-circle">
-                                        <i class="fas fa-trash"></i>
-                                    </a>-->
-                                    <!-- Circle Buttons (Small) -->
-                                    <!--<div class="mt-4 mb-2">
-                                        <code>.btn-circle .btn-sm</code>
-                                    </div>
-                                    <a href="#" class="btn btn-primary btn-circle btn-sm">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-success btn-circle btn-sm">
-                                        <i class="fas fa-check"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-info btn-circle btn-sm">
-                                        <i class="fas fa-info-circle"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-warning btn-circle btn-sm">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                        <i class="fas fa-trash"></i>
-                                    </a>-->
-                                    <!-- Circle Buttons (Large) -->
-                                    <!--<div class="mt-4 mb-2">
-                                        <code>.btn-circle .btn-lg</code>
-                                    </div>
-                                    <a href="#" class="btn btn-primary btn-circle btn-lg">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-success btn-circle btn-lg">
-                                        <i class="fas fa-check"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-info btn-circle btn-lg">
-                                        <i class="fas fa-info-circle"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-warning btn-circle btn-lg">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-circle btn-lg">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </div>
-                            </div>-->
+                        <div class="col-lg-10">
 
                             <!-- Brand Buttons -->
                             <div class="card shadow mb-4">
@@ -517,31 +271,51 @@
                                             <label for="inputMatricula" class="control-label">Matricula do permutante</label>
                                             <input type="number" class="form-control" name="matrPermutante" id="inputGuerra" value="<?php echo $matrPermuta;?>">
                                         </div>
-                                        <div class="col-md-6" ><!--style="display :none;"-->
+                                        <!--<div class="col-md-6" >
                                             <label for="inputSituacao" class="form-label">Você aceita a permuta?</label>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" value="1" name="flexRadioDefault" id="flexRadioDefault1">
+                                                <input class="form-check-input" type="radio" value="1" name="flexRadioDefault" id="flexRadioDefault1" checked>
                                                 <label class="form-check-label" for="flexRadioDefault1">
                                                     Sim
                                                 </label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" value="0" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                                <input class="form-check-input" type="radio" value="0" name="flexRadioDefault" id="flexRadioDefault2" >
                                                 <label class="form-check-label" for="flexRadioDefault2">
                                                     Não
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-md-6" style="display :none;">
+                                            <label for="inputSituacao" class="form-label">Autorização de permuta</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" value="1" name="flexRadioDefault1" id="flexRadioDefault1">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Sim
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" value="0" name="flexRadioDefault1" id="flexRadioDefault2" checked>
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Não
+                                                </label>
+                                            </div>
+                                        </div>-->
+                                        <div class="col-sm-3">
                                             <!--<span id="msgAlerta1"></span>--->
                                             <label for="dataFinal" class="form-label">Data da permuta</label>
                                             <input type="text" class="form-control" name="diaPermuta" id="inputGuerra" value="<?php echo $diaPermuta;?>">
                                             <!--<input type="date" class="form-control" name="dataPermuta" id="dataFinal">-->
                                         </div>
-                                        
+                                        <!--<div class="col-sm-12" style="display: none;">
+                                            <br>
+                                            <label for="Justificativa" class="control-label">Justificativa</label>
+                                            <textarea class="form-control" id="Justificativa" name="justificativa" rows="3"></textarea>
+                                        </div>-->
                                         <div class="modal-footer">
                                             <input type="submit" name="confirmar" class="btn btn-primary" value="CONFIRMAR">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            <a href="home.php" class="btn btn-danger">NÃO CONFIRMO</a>
+                                            <!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
                                         </div>
                                     </form>
                                     
@@ -550,85 +324,7 @@
 
                         </div>
 
-                        <!--<div class="col-lg-6">
-
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Split Buttons with Icon</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and
-                                        the markup in the examples below. The examples below also use the
-                                        <code>.text-white-50</code> helper class on the icons for additional styling,
-                                        but it is not required.</p>
-                                    <a href="#" class="btn btn-primary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Primary</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text">Split Button Success</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-info btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                        <span class="text">Split Button Info</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-warning btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </span>
-                                        <span class="text">Split Button Warning</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-danger btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                        <span class="text">Split Button Danger</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-secondary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </span>
-                                        <span class="text">Split Button Secondary</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-light btn-icon-split">
-                                        <span class="icon text-gray-600">
-                                            <i class="fas fa-arrow-right"></i>
-                                        </span>
-                                        <span class="text">Split Button Light</span>
-                                    </a>
-                                    <div class="mb-4"></div>
-                                    <p>Also works with small and large button classes!</p>
-                                    <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Small</span>
-                                    </a>
-                                    <div class="my-2"></div>
-                                    <a href="#" class="btn btn-primary btn-icon-split btn-lg">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-flag"></i>
-                                        </span>
-                                        <span class="text">Split Button Large</span>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>-->
-
+                        
                     </div>
 
                 </div>
@@ -678,52 +374,6 @@
         </div>
     </div>
 
-    <!-- Modal de permuta-->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-  
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-           <h4 class="modal-title">Anuncie aqui uma permuta</h4> 
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          
-        </div>
-        <div class="modal-body">
-          <p>Aqui você pode anuciar seu interesse em permutar.</p>
-          <form class="row g-6" id="formConsulta" action="permuta/agendarPermuta.php" method="POST" enctype="multipart/form-data">
-            <div class="col-sm-6">
-                <label for="inputMatricula" class="control-label">Sua Matricula</label>
-                <input type="Number" class="form-control" name="suaMatricula" id="inputAddress" placeholder="Sua matricula">
-            </div>
-            <div class="col-sm-6">
-                <!--<span id="msgAlerta1"></span>--->
-                <label for="dataFinal" class="form-label">Data da permuta</label>
-                <input type="date" class="form-control" name="dataPermuta" id="dataFinal">
-            </div>
-            <div class="col-md-6" ><!--style="display :none;"-->
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" value="1" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Sim
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" value="0" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Não
-                    </label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <input type="submit" name="salvar" class="btn btn-primary" value="Pedir Permulta">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-        </form>
-      </div>
-  
-    </div>
-  </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
